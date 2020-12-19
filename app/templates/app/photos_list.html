@@ -1,0 +1,18 @@
+<!-- index.htmlとusers_detail.htmlで写真一覧を表示する共通コード部分は、これに纏めてそれぞれのファイルで読み込む。 -->
+
+<div class="photo-container">
+  <!-- for文でDBにあるものは繰り返し表示させる。 -->
+  <!-- この時点では、mediaディレクトリが公開されていない為、正常に表示されない。プロジェクトディレクトリのurls.pyで公開されてアドレスのアクセスできるよう設定が必要。 -->
+  {% for photo in photos %}
+    <div class="photo">
+      <!-- 写真をクリックして、詳細ページのurlに飛ぶ時、photo.idを渡します。 -->
+      <a href="{% url 'app:photos_detail' photo.id %}">
+        <img src="{{ photo.image.url }}" class="photo-img">
+      </a>
+      <div class="photo-info">
+        <a href="{% url 'app:photos_category' category=photo.category %}" class="category">{{ photo.category }}</a>
+        <a href="{% url 'app:users_detail' photo.user.id %}">@{{ photo.user }}</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>

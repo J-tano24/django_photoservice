@@ -1,0 +1,40 @@
+<!-- CSSや画像などの静的ファイルを読み込むための記述。静的ファイルは、staticディレクトリに格納するのが一般的であり、プロジェクト全体で利用したいCSSファイルであれば、プロジェクトディレクトリ直下にstaticディレクトリを作成するのが望ましい。-->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>写真投稿サイト</title>
+  <link rel="stylesheet" type='text/css' href="{% static 'css/style.css'%}">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><a href="{% url 'app:index' %}">写真投稿サイト</a></h1>
+      <div class="header-menu">
+        <!-- 投稿btnにlinkを設定し、クリックすれば投稿画面に飛べるよう設定。 -->
+        <a href="{% url 'app:photos_new' %}">投稿</a>
+        <!-- Templateでは、request.userで、そのUserオブジェクトにアクセス。 -->
+        <!-- is_authenticatedは、ユーザーがログイン状態であればTrue、未ログインはFalseとなる属性。 -->
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'app:users_detail' request.user.id %}">マイページ</a>
+          <a href="{% url 'app:logout' %}">ログアウト</a>
+        {% else %}
+          <a href="{% url 'app:login' %}">ログイン</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    {% for message in messages %}
+      <p class="message-success">{{ message }}</p>
+    {% endfor %}
+    {% block content %}
+    <!-- 他HTMLファイル中で読み込めばここに取り込まれる。それ以外のところは拡張して共通管理できる。 -->
+    {% endblock %}
+  </div>
+
+</body>
+</html>
