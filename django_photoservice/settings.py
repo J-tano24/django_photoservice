@@ -26,7 +26,9 @@ SECRET_KEY = '3^hj)$#24@c@y_i3%s=dv@9)lbs@l1&axu7$$!8no9-jy2!z^f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# このHOST上でしか動かない。
+# Herokuで作製されたURLをここに格納する。
+ALLOWED_HOSTS = ["djangophotoservice.herokuapp.com"]
 
 
 # Application definition
