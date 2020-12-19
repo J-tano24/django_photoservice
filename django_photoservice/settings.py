@@ -140,3 +140,7 @@ LOGIN_URL = 'app:login'
 LOGIN_REDIRECT_URL = 'app:index' 
 # ログアウトしたユーザーをリダイレクトさせるURLを指定。
 LOGOUT_REDIRECT_URL = 'app:index'
+
+if not DEBUG:
+    import django_heroku
+    django_heroku.settings(locals())
