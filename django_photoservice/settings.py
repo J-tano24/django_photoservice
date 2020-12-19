@@ -127,6 +127,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+STATIC_ROOT = 'staticfiles'
 
 # 画像の保存先を表すものでBASE_DIR（ルートディレクトリ）直下のmediaというディレクトリに保存される事になる。※ディレクトリは、1つ目の画像がアップロードされたタイミングで自動生成される。
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -145,4 +146,3 @@ if not DEBUG:
     import django_heroku
     django_heroku.settings(locals())
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
