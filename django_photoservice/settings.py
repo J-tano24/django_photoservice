@@ -24,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '3^hj)$#24@c@y_i3%s=dv@9)lbs@l1&axu7$$!8no9-jy2!z^f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# osからDEBUGという環境変数の値を取得(Heroku側でFalseと指定)。"False"=="True"になる為、DEBUG="False"になる。
+DEBUG = os.environ.get("DEBUG")=="True"
 
 # このHOST上でしか動かない。
 # Herokuで作製されたURLをここに格納する。
@@ -79,6 +80,7 @@ WSGI_APPLICATION = 'django_photoservice.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# 使うDBを定義している。
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -144,7 +146,12 @@ LOGIN_REDIRECT_URL = 'app:index'
 # ログアウトしたユーザーをリダイレクトさせるURLを指定。
 LOGOUT_REDIRECT_URL = 'app:index'
 
+
 if not DEBUG:
     import django_heroku
+    import dj_database_url
     django_heroku.settings(locals())
+    # 82行目で定義しているdefaultのDBはWeb上では使えない為、ここで上書きしている。Herokuには、postgresqlというdefaultのDBがあるのでそれを使う。
+    # dj_database_url(パッケージ)は、環境変数(DATABASE_URL)を拾ってくる。※今回の場合は、Herokuでダッシュボードから確認可能。
+    DATABASES["default"].update(dj_database_url.config(conn_max_age=600,ssl_require=True))
 
