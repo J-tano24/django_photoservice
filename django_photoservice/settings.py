@@ -152,8 +152,8 @@ if not DEBUG:
     import dj_database_url
     # .settings = 本番環境用の設定をしてくれる。
     # https://github.com/heroku/django-heroku/blob/master/django_heroku/core.py#L49
+    DATABASES["default"].update(dj_database_url.config(conn_max_age=600,ssl_require=True))
     django_heroku.settings(locals())
     # 82行目で定義しているdefaultのDBはWeb上では使えない為、ここで上書きしている。Herokuには、postgresqlというdefaultのDBがあるのでそれを使う。
     # dj_database_url(パッケージ)は、環境変数(DATABASE_URL)を拾ってくる。※今回の場合は、Herokuでダッシュボードから確認可能。
-    DATABASES["default"].update(dj_database_url.config(conn_max_age=600,ssl_require=True))
 
