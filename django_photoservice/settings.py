@@ -155,4 +155,3 @@ if not DEBUG:
     # .settings = 本番環境用の設定をしてくれる。
     # https://github.com/heroku/django-heroku/blob/master/django_heroku/core.py#L49
     django_heroku.settings(locals())
-
