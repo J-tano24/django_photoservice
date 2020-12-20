@@ -24,11 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '3^hj)$#24@c@y_i3%s=dv@9)lbs@l1&axu7$$!8no9-jy2!z^f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# osからDEBUGという環境変数の値を取得(Heroku側でFalseと指定)。"False"=="True"になる為、DEBUG="False"になる。
+# osを使って、DEBUGという環境変数(Heroku側でDEBUG="False"と指定)の値をos.environ.get("環境変数名")で取得。=> "False"=="True"となり、DEBUG="False"が返ってくることになる。
 DEBUG = os.environ.get("DEBUG")=="True"
 
-# このHOST上でしか動かない。
-# Herokuで作製されたURLをここに格納する。
+# Herokuで作製されたURLをここに格納する。ここに入れないまま検索しても、エラーメッセージが出てくる。
 ALLOWED_HOSTS = ["djangophotoservice.herokuapp.com"]
 
 
@@ -80,7 +79,7 @@ WSGI_APPLICATION = 'django_photoservice.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# 使うDBを定義している。
+# 開発環境で使うDBを定義している。
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -146,12 +145,12 @@ LOGIN_REDIRECT_URL = 'app:index'
 # ログアウトしたユーザーをリダイレクトさせるURLを指定。
 LOGOUT_REDIRECT_URL = 'app:index'
 
-# DEBUG=="False"の時、要は、Heroku環境の時。
+# DEBUG=="False"の時、要はHeroku(本番)環境の時。
 if not DEBUG:
     import django_heroku
     import dj_database_url
-    # 82行目で定義しているdefaultのDBはWeb上では使えない為、ここで上書きしている。Herokuには、postgresqlというdefaultのDBがあるのでそれを使う。
-    # dj_database_url(パッケージ)は、環境変数(DATABASE_URL)を拾ってくる。※今回の場合は、Herokuでダッシュボードから確認可能。
+    # 上の方で定義しているdefaultのDBはWeb上では使えない為、ここで上書きしている。Herokuには、postgresqlというdefaultのDBがあるのでそれを使うようにする。
+    # dj_database_url(パッケージ)を使えば、環境変数(DATABASE_URL)を拾ってこれる。※今回の場合は、Herokuのダッシュボードから確認可能。
     DATABASES["default"].update(dj_database_url.config(conn_max_age=600,ssl_require=True))
     # .settings = 本番環境用の設定をしてくれる。
     # https://github.com/heroku/django-heroku/blob/master/django_heroku/core.py#L49
