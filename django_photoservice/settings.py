@@ -25,7 +25,7 @@ SECRET_KEY = '3^hj)$#24@c@y_i3%s=dv@9)lbs@l1&axu7$$!8no9-jy2!z^f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # osを使って、DEBUGという環境変数(Heroku側でDEBUG="False"と指定)の値をos.environ.get("環境変数名")で取得。=> "False"=="True"となり、DEBUG="False"が返ってくることになる。
-DEBUG = os.environ.get("DEBUG")=="True"
+DEBUG = os.environ.get("DEBUG") == "True"
 
 # Herokuで作製されたURLをここに格納する。ここに入れないまま検索しても、エラーメッセージが出てくる。
 ALLOWED_HOSTS = ["djangophotoservice.herokuapp.com"]
