@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'app',
     # django_cleanupをインストールする事でPhotoインスタンスの削除と同時に画像ファイルもディレクトリから削除される。
     'django_cleanup',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,14 @@ if not DEBUG:
     # .settings = 本番環境用の設定をしてくれる。
     # https://github.com/heroku/django-heroku/blob/master/django_heroku/core.py#L49
     django_heroku.settings(locals())
+
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+    MEDIA_URL = S3_URL
+
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
