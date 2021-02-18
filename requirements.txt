@@ -24,5 +24,7 @@ django-heroku==0.3.1
 psycopg2==2.7.5
 whitenoise==5.0.1
 dj-database-url==0.5.0
+
+# AWS(S3)に使うパッケージ
 django-storages
 boto3

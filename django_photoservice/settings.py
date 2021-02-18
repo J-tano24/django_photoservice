@@ -135,14 +135,14 @@ STATIC_ROOT = 'staticfiles'
 
 # 画像の保存先を表すものでBASE_DIR（ルートディレクトリ）直下のmediaというディレクトリに保存される事になる。※ディレクトリは、1つ目の画像がアップロードされたタイミングで自動生成される。
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDEA_URLは、ユーザーが生成したコンテンツのURLを表すのに使われる。photo.image.urlで画像のアドレスを取得できるのだが、その際、MEDIA＿URL／photos／IMG_01.JPGのように、頭にはMEDIA＿URLに指定した文字列が入る。今回は、mediaと設定しているので、頭がmediaに置き換わってURLに表示される。
+# MEDIA_URLは、ユーザーが生成したコンテンツのURLを表すのに使われる。photo.image.urlで画像のアドレスを取得できるのだが、その際、MEDIA＿URL／photos／IMG_01.JPGのように、頭にはMEDIA＿URLに指定した文字列が入る。今回は、mediaと設定しているので、頭がmediaに置き換わってURLに表示される。
 # MEDIA＿URLは、ユーザーが生成したコンテンツのURLを表す。
 MEDIA_URL = '/media/'
 
 # ログインする時に使うページを設定（login.htmlのこと）。
-LOGIN_URL = 'app:login' 
+LOGIN_URL = 'app:login'
 # ユーザーがログインした時に最初にリダイレクトされるURLを指定（index.html）。
-LOGIN_REDIRECT_URL = 'app:index' 
+LOGIN_REDIRECT_URL = 'app:index'
 # ログアウトしたユーザーをリダイレクトさせるURLを指定。
 LOGOUT_REDIRECT_URL = 'app:index'
 
@@ -152,7 +152,8 @@ if not DEBUG:
     import dj_database_url
     # 上の方で定義しているdefaultのDBはWeb上では使えない為、ここで上書きしている。Herokuには、postgresqlというdefaultのDBがあるのでそれを使うようにする。
     # dj_database_url(パッケージ)を使えば、環境変数(DATABASE_URL)を拾ってこれる。※今回の場合は、Herokuのダッシュボードから確認可能。
-    DATABASES["default"].update(dj_database_url.config(conn_max_age=600,ssl_require=True))
+    DATABASES["default"].update(dj_database_url.config(
+        conn_max_age=600, ssl_require=True))
     # .settings = 本番環境用の設定をしてくれる。
     # https://github.com/heroku/django-heroku/blob/master/django_heroku/core.py#L49
     django_heroku.settings(locals())
